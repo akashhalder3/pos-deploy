@@ -26,6 +26,6 @@ fi
 PRYSM_DIR=./dependencies/prysm
 GETH_DIR=./dependencies/go-ethereum
 
-( cd $PRYSM_DIR && go build -o=./out/beacon-chain ./cmd/beacon-chain && go build -o=./out/validator ./cmd/validator && go build -o=./out/prysmctl ./cmd/prysmctl )
+( cd $PRYSM_DIR && go build -o=../beacon-chain ./cmd/beacon-chain && go build -o=./out/validator ./cmd/validator && go build -o=./out/prysmctl ./cmd/prysmctl )
 
 ( cd $GETH_DIR && make all )
