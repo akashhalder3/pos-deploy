@@ -6,6 +6,7 @@ set -o pipefail
 # Update and install build-essential for c++
 sudo apt update
 sudo apt-get install build-essential
+sudo apt-get install jq
 
 # Check if go is installed
 if ! command -v go &> /dev/null; then
