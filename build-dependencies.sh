@@ -3,6 +3,9 @@
 set -exu
 set -o pipefail
 
+sudo apt update
+sudo apt-get install build-essentials
+
 # Check if go is installed
 if ! command -v go &> /dev/null; then
     echo "Error: go is not installed. Please install Go first."
