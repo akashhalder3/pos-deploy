@@ -73,3 +73,20 @@ $PRYSM_CTL_BINARY testnet generate-genesis \
 --chain-config-file=./config.yml \
 --geth-genesis-json-in=./genesis.json \
 --geth-genesis-json-out=$NETWORK_DIR/genesis.json
+
+
+NODE_DIR=$NETWORK_DIR/node0
+mkdir -p $NODE_DIR/execution
+mkdir -p $NODE_DIR/consensus
+mkdir -p $NODE_DIR/logs
+
+# We use an empty password. Do not do this in production
+geth_pw_file="$NODE_DIR/geth_password.txt"
+echo "" > "$geth_pw_file"
+
+# Copy the same genesis and inital config the node's directories
+cp ./config.yml $NODE_DIR/consensus/config.yml
+cp $NETWORK_DIR/genesis.ssz $NODE_DIR/consensus/genesis.ssz
+cp $NETWORK_DIR/genesis.json $NODE_DIR/execution/genesis.json
+
+
