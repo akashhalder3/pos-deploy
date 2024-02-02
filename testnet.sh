@@ -8,7 +8,7 @@ set -o pipefail
 NETWORK_DIR=./network
 
 # Change this number for your desired number of nodes
-NUM_NODES=1
+NUM_NODES=64
 
 # Port information. All ports will be incremented upon
 # with more validators to prevent port conflicts on a single machine
@@ -61,3 +61,15 @@ PRYSM_VALIDATOR_BINARY=./dependencies/prysm/out/validator
 # Create the bootnode for execution client peer discovery. 
 # Not a production grade bootnode. Does not do peer discovery for consensus client
 mkdir -p $NETWORK_DIR/bootnode
+
+# Generate the genesis. This will generate validators based
+# on https://github.com/ethereum/eth2.0-pm/blob/a085c9870f3956d6228ed2a40cd37f0c6580ecd7/interop/mocked_start/README.md
+# We want to start our nodes before the gensis time of the chain
+$PRYSM_CTL_BINARY testnet generate-genesis \
+--fork=capella \
+--num-validators=$NUM_NODES \
+--genesis-time-delay=15 \
+--output-ssz=$NETWORK_DIR/genesis.ssz \
+--chain-config-file=./config.yml \
+--geth-genesis-json-in=./genesis.json \
+--geth-genesis-json-out=$NETWORK_DIR/genesis.json
