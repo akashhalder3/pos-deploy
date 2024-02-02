@@ -89,4 +89,69 @@ cp ./config.yml $NODE_DIR/consensus/config.yml
 cp $NETWORK_DIR/genesis.ssz $NODE_DIR/consensus/genesis.ssz
 cp $NETWORK_DIR/genesis.json $NODE_DIR/execution/genesis.json
 
+# Create the secret keys for this node and other account details
+$GETH_BINARY account new --datadir "$NODE_DIR/execution" --password "$geth_pw_file"
+
+# Initialize geth for this node. Geth uses the genesis.json to write some initial state
+$GETH_BINARY init \
+      --datadir=$NODE_DIR/execution \
+      $NODE_DIR/execution/genesis.json
+
+# Start geth execution client for this node
+$GETH_BINARY \
+      --networkid=${CHAIN_ID:-32382} \
+      --http \
+      --http.api=eth,net,web3 \
+      --http.addr=0.0.0.0 \
+      --http.corsdomain="*" \
+      --ws \
+      --ws.api=eth,net,web3 \
+      --ws.addr=0.0.0.0 \
+      --ws.origins="*" \
+      --authrpc.vhosts="*" \
+      --authrpc.addr=0.0.0.0 \
+      --authrpc.jwtsecret=$NODE_DIR/execution/jwtsecret \
+      --datadir=$NODE_DIR/execution \
+      --password=$geth_pw_file \
+      --verbosity=3 \
+      --syncmode=full \
+      --nat extip:20.244.97.158 > "$NODE_DIR/logs/geth.log" 2>&1 &
+
+
+sleep 5
+
+# Start prysm consensus client for this node
+$PRYSM_BEACON_BINARY \
+      --datadir=$NODE_DIR/consensus/beacondata \
+      --min-sync-peers=0 \
+      --genesis-state=$NODE_DIR/consensus/genesis.ssz \
+      --bootstrap-node=$PRYSM_BOOTSTRAP_NODE \
+      --interop-eth1data-votes \
+      --chain-config-file=$NODE_DIR/consensus/config.yml \
+      --contract-deployment-block=0 \
+      --chain-id=${CHAIN_ID:-32382} \
+      --rpc-host=0.0.0.0 \
+      --grpc-gateway-host=0.0.0.0 \
+      --execution-endpoint=http://0.0.0.0:$GETH_AUTH_RPC_PORT \
+      --accept-terms-of-use \
+      --jwt-secret=$NODE_DIR/execution/jwtsecret \
+      --suggested-fee-recipient=0x123463a4b065722e99115d6c222f267d9cabb524 \
+      --minimum-peers-per-subnet=0 \
+      --enable-debug-rpc-endpoints \
+      --p2p-host-ip=0.0.0.0 \
+      --minimum-peers-per-subnet=0 \
+      --monitoring-port=$PRYSM_BEACON_MONITORING_PORT
+      --verbosity=info \
+      --slasher \
+      --enable-debug-rpc-endpoints > "$NODE_DIR/logs/beacon.log" 2>&1 &
+
+# Start prysm validator for this node. Each validator node will manage 1 validator
+$PRYSM_VALIDATOR_BINARY \
+      --beacon-rpc-provider=0.0.0.0:$PRYSM_BEACON_RPC_PORT \
+      --datadir=$NODE_DIR/consensus/validatordata \
+      --accept-terms-of-use \
+      --interop-num-validators=$NUM_NODES \
+      --interop-start-index=0 \
+      --chain-config-file=$NODE_DIR/consensus/config.yml > "$NODE_DIR/logs/validator.log" 2>&1 &
+
 
