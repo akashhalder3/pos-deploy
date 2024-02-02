@@ -4,7 +4,7 @@ set -exu
 set -o pipefail
 
 sudo apt update
-sudo apt-get install build-essentials
+sudo apt-get install build-essential
 
 # Check if go is installed
 if ! command -v go &> /dev/null; then
