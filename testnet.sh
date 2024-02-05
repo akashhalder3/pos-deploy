@@ -122,6 +122,8 @@ $GETH_BINARY \
       --syncmode=full \
       --nat extip:20.244.97.158 > "$NODE_DIR/logs/geth.log" 2>&1 &
 
+sleep 5
+
 # Start prysm consensus client for this node
 $PRYSM_BEACON_BINARY \
       --datadir=$NODE_DIR/consensus/beacondata \
@@ -142,7 +144,7 @@ $PRYSM_BEACON_BINARY \
       --enable-debug-rpc-endpoints \
       --p2p-host-ip=4.240.105.79 \
       --minimum-peers-per-subnet=0 \
-      --monitoring-port=$PRYSM_BEACON_MONITORING_PORT
+      --monitoring-port=$PRYSM_BEACON_MONITORING_PORT \
       --verbosity=info \
       --slasher \
       --enable-debug-rpc-endpoints > "$NODE_DIR/logs/beacon.log" 2>&1 &
