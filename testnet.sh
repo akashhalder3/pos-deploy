@@ -75,6 +75,11 @@ $PRYSM_CTL_BINARY testnet generate-genesis \
 --geth-genesis-json-out=$NETWORK_DIR/genesis.json
 
 
+# The prysm bootstrap node is set after the first loop, as the first
+# node is the bootstrap node. This is used for consensus client discovery
+PRYSM_BOOTSTRAP_NODE=
+
+
 NODE_DIR=$NETWORK_DIR/node0
 mkdir -p $NODE_DIR/execution
 mkdir -p $NODE_DIR/consensus
