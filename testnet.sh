@@ -143,7 +143,7 @@ $PRYSM_BEACON_BINARY \
       --suggested-fee-recipient=0x123463a4b065722e99115d6c222f267d9cabb524 \
       --minimum-peers-per-subnet=0 \
       --enable-debug-rpc-endpoints \
-      --p2p-host-ip=0.0.0.0 \
+      --p2p-host-ip=4.240.105.79 \
       --minimum-peers-per-subnet=0 \
       --monitoring-port=$PRYSM_BEACON_MONITORING_PORT
       --verbosity=info \
