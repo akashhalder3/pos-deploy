@@ -122,9 +122,6 @@ $GETH_BINARY \
       --syncmode=full \
       --nat extip:20.244.97.158 > "$NODE_DIR/logs/geth.log" 2>&1 &
 
-
-sleep 5
-
 # Start prysm consensus client for this node
 $PRYSM_BEACON_BINARY \
       --datadir=$NODE_DIR/consensus/beacondata \
