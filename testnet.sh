@@ -137,7 +137,7 @@ $PRYSM_BEACON_BINARY \
       --chain-id=${CHAIN_ID:-32382} \
       --rpc-host=0.0.0.0 \
       --grpc-gateway-host=0.0.0.0 \
-      --execution-endpoint=http://0.0.0.0:$GETH_AUTH_RPC_PORT \
+      --execution-endpoint=http://localhost:$GETH_AUTH_RPC_PORT \
       --accept-terms-of-use \
       --jwt-secret=$NODE_DIR/execution/jwtsecret \
       --suggested-fee-recipient=0x123463a4b065722e99115d6c222f267d9cabb524 \
