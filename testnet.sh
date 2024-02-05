@@ -150,9 +150,6 @@ $PRYSM_BEACON_BINARY \
       --slasher \
       --enable-debug-rpc-endpoints > "$NODE_DIR/logs/beacon.log" 2>&1 &
 
-
-sleep 5
-
 # Start prysm validator for this node. Each validator node will manage 1 validator
 $PRYSM_VALIDATOR_BINARY \
       --beacon-rpc-provider=0.0.0.0:$PRYSM_BEACON_RPC_PORT \
@@ -177,5 +174,5 @@ $PRYSM_VALIDATOR_BINARY \
             exit 1
         fi
     fi
-
+done
 
