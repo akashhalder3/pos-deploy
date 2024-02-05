@@ -164,7 +164,7 @@ $PRYSM_VALIDATOR_BINARY \
         sleep 5 # sleep to let the prysm node set up
         # If PRYSM_BOOTSTRAP_NODE is not set, execute the command and capture the result into the variable
         # This allows subsequent nodes to discover the first node, treating it as the bootnode
-        PRYSM_BOOTSTRAP_NODE=$(curl -s localhost:4100/eth/v1/node/identity | jq -r '.data.enr')
+        PRYSM_BOOTSTRAP_NODE=$(curl -s localhost:4100/eth/v1/node/identity)
             # Check if the result starts with enr
         if [[ $PRYSM_BOOTSTRAP_NODE == enr* ]]; then
             echo "PRYSM_BOOTSTRAP_NODE is valid: $PRYSM_BOOTSTRAP_NODE"
