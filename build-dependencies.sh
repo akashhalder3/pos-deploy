@@ -25,7 +25,7 @@ if [[ $(echo "$MIN_GO_VERSION $GO_VERSION" | tr " " "\n" | sort -V | head -n 1) 
 fi
 
 #init submodules
-git submodule update --force --recursive --init --remote
+# git submodule update --init --recursive
 
 PRYSM_DIR=./dependencies/prysm
 GETH_DIR=./dependencies/go-ethereum
