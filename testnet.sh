@@ -158,8 +158,7 @@ $PRYSM_VALIDATOR_BINARY \
       --accept-terms-of-use \
       --interop-num-validators=$NUM_NODES \
       --interop-start-index=0 \
-      --chain-config-file=$NODE_DIR/consensus/config.yml > "$NODE_DIR/logs/validator.log" 2>&1 &
-          
+      --chain-config-file=$NODE_DIR/consensus/config.yml > "$NODE_DIR/logs/validator.log" 2>&1 &        
 # Check if the PRYSM_BOOTSTRAP_NODE variable is already set
 #     if [[ -z "${PRYSM_BOOTSTRAP_NODE}" ]]; then
 #         sleep 5 # sleep to let the prysm node set up
@@ -174,5 +173,4 @@ $PRYSM_VALIDATOR_BINARY \
 #             exit 1
 #         fi
 #     fi
-
 done
