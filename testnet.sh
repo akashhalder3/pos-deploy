@@ -183,7 +183,18 @@ $PRYSM_VALIDATOR_BINARY \
       --interop-num-validators=$NUM_NODES \
       --interop-start-index=0 \
       --chain-config-file=$NODE_DIR/consensus/config.yml > "$NODE_DIR/logs/validator.log" 2>&1 &
-
-
+          # Check if the PRYSM_BOOTSTRAP_NODE variable is already set
+    if [[ -z "${PRYSM_BOOTSTRAP_NODE}" ]]; then
+        sleep 5 # sleep to let the prysm node set up
+        # If PRYSM_BOOTSTRAP_NODE is not set, execute the command and capture the result into the variable
+        # This allows subsequent nodes to discover the first node, treating it as the bootnode
+        PRYSM_BOOTSTRAP_NODE=$(curl -s localhost:4100/eth/v1/node/identity | jq -r '.data.enr')
+            # Check if the result starts with enr
+        if [[ $PRYSM_BOOTSTRAP_NODE == enr* ]]; then
+            echo "PRYSM_BOOTSTRAP_NODE is valid: $PRYSM_BOOTSTRAP_NODE"
+        else
+            echo "PRYSM_BOOTSTRAP_NODE does NOT start with enr"
+            exit 1
+        fi
+    fi
 done
-
