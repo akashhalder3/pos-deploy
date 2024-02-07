@@ -153,7 +153,7 @@ $PRYSM_BEACON_BINARY \
 
 # Start prysm validator for this node. Each validator node will manage 1 validator
 $PRYSM_VALIDATOR_BINARY \
-      --beacon-rpc-provider=0.0.0.0:$PRYSM_BEACON_RPC_PORT \
+      --beacon-rpc-provider=localhost:$PRYSM_BEACON_RPC_PORT \
       --datadir=$NODE_DIR/consensus/validatordata \
       --accept-terms-of-use \
       --interop-num-validators=$NUM_NODES \
